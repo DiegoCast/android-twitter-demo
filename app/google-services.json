@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "73519178706",
+    "firebase_url": "https://twitter-demo-android.firebaseio.com",
+    "project_id": "twitter-demo-android",
+    "storage_bucket": "twitter-demo-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73519178706:android:60a167cd6856f9fb",
+        "android_client_info": {
+          "package_name": "com.diegocast.twitterapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73519178706-95f1ho62c893e8o95fbbjloj20c33ffm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjA-Q-zS5HiBBciVycKyqQ3S2L0vyz0zQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73519178706:android:1ccf03d879627d82",
+        "android_client_info": {
+          "package_name": "com.diegocast.twitterapp.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73519178706-95f1ho62c893e8o95fbbjloj20c33ffm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjA-Q-zS5HiBBciVycKyqQ3S2L0vyz0zQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

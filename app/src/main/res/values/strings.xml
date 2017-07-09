@@ -1,0 +1,32 @@
+<resources>
+    <!-- GENERAL -->
+
+    <string name="app_name">TwitterApp</string>
+    <string name="error_title">Error</string>
+    <string name="authentication_error">Authentication error</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!-- END GENERAL -->
+
+    <!-- MAIN -->
+
+    <string name="main_title">Login</string>
+
+    <!-- END MAIN -->
+
+    <!-- FEED -->
+
+    <string name="feed_title">Feed</string>
+    <string name="feed_logout">Logout</string>
+    <string name="feed_logout_description">Are you sure you want to log out?</string>
+
+    <!-- END FEED -->
+
+    <!-- API KEY -->
+
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">ZTqm95zglZuibGRsad12oLdrG</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">qZBpbgX8KTyOTs96jzghtr5rlvKdqESdUmwrBPAApP7P1neNbP</string>
+
+    <!-- END API KEY -->
+</resources>
