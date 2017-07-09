@@ -1,5 +1,6 @@
 package com.diegocast.twitterapp.data.user;
 
+import com.diegocast.twitterapp.data.feed.TwitterApiRepository;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.Before;
@@ -12,9 +13,12 @@ public class UserDataRepositoryTest {
     @Mock
     FirebaseAuth firebaseAuth;
 
+    @Mock
+    TwitterApiRepository apiRepository;
+
     @Before
     public void setUp() {
-        repository = new UserDataRepository(firebaseAuth);
+        repository = new UserDataRepository(apiRepository, firebaseAuth);
     }
 
 

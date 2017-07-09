@@ -1,7 +1,7 @@
 <resources>
     <!-- GENERAL -->
 
-    <string name="app_name">TwitterApp</string>
+    <string name="app_name">Twitter App Demo</string>
     <string name="error_title">Error</string>
     <string name="authentication_error">Authentication error</string>
     <string name="yes">Yes</string>
@@ -17,7 +17,7 @@
 
     <!-- FEED -->
 
-    <string name="feed_title">Feed</string>
+    <string name="feed_title">My feed</string>
     <string name="feed_logout">Logout</string>
     <string name="feed_logout_description">Are you sure you want to log out?</string>
 

@@ -39,9 +39,11 @@ android {
     productFlavors {
         mock {
             buildConfigField "String", "ENVIRONMENT", "\"development\""
+            buildConfigField "String", "APIURL", "\"https://api.twitter.com/\""
         }
         production {
             buildConfigField "String", "ENVIRONMENT", "\"production\""
+            buildConfigField "String", "APIURL", "\"https://api.twitter.com/\""
         }
     }
     sourceSets {
@@ -156,6 +158,9 @@ dependencies {
 
     //Firebase
     compile 'com.google.firebase:firebase-auth:11.0.2'
+
+    //Circular image view
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
 
 task copyResToMockClasses(type: Copy) {

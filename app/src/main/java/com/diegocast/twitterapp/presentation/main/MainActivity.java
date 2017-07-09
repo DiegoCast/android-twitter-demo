@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.diegocast.twitterapp.R;
+import com.diegocast.twitterapp.presentation.Utils;
 import com.diegocast.twitterapp.presentation.base.DaggerActivity;
 import com.diegocast.twitterapp.presentation.dependency.view.ViewModule;
 import com.twitter.sdk.android.core.Callback;
@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends DaggerActivity implements MainView {
 
@@ -80,12 +81,17 @@ public class MainActivity extends DaggerActivity implements MainView {
 
     @Override
     public void showLoginError(String message) {
-        showError(message);
+        progressBar.hide();
+        loginButton.setVisibility(View.VISIBLE);
+        Utils.showError(this, getString(R.string.error_title), message);
     }
 
     @Override
     public void showAuthenticationError() {
-        showError(getString(R.string.authentication_error));
+        progressBar.hide();
+        loginButton.setVisibility(View.VISIBLE);
+        Utils.showError(this, getString(R.string.error_title),
+                getString(R.string.authentication_error));
     }
 
     @Override
@@ -93,12 +99,9 @@ public class MainActivity extends DaggerActivity implements MainView {
         finish();
     }
 
-    private void showError(String message) {
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle(getString(R.string.error_title));
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                (dialog, which) -> dialog.dismiss());
-        alertDialog.show();
+    @OnClick(R.id.login_button)
+    public void onLoginClick() {
+        progressBar.show();
+        loginButton.setVisibility(View.GONE);
     }
 }
