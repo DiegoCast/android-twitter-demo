@@ -5,7 +5,7 @@ import com.google.auto.value.AutoValue;
 import javax.annotation.Nullable;
 
 /**
- * Domain model for response data wrapping
+ * Domain model for response data wrapping with a state model
  */
 
 @AutoValue

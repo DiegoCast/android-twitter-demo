@@ -104,4 +104,12 @@ public class FeedActivityTest {
                 .perform(click());
         verify(presenter).logout();
     }
+
+    @Test
+    public void Test() throws Throwable {
+        activityRule.runOnUiThread((() -> activity.showFavoriteSaveError()));
+
+        onView(withText(activity.getString(R.string.feed_save_error))).inRoot(Matchers.isToast())
+                .check(matches(isDisplayed()));
+    }
 }

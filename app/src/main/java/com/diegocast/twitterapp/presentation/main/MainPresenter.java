@@ -38,9 +38,9 @@ public class MainPresenter {
     }
 
     public void create() {
-        //For the subscription we specify a computation thread to process all the channel data
-        //transmission and background processing. We observe on the main thread as it is required
-        //by the Android framework whenever we are interacting upon views:
+        // For the subscription we specify a computation thread to process all the channel data
+        // transmission and background processing. We observe on the main thread as it is required
+        // by the Android framework whenever we are interacting upon views:
         isUserAuthenticatedUseCase.isUserAuthenticated()
                 .subscribeOn(computation)
                 .observeOn(main)

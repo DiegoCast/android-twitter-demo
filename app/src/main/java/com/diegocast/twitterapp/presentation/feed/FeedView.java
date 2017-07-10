@@ -9,4 +9,5 @@ public interface FeedView extends BaseView {
     void showFeed(List<Tweet> tweets);
     void showUserInfo(String userName, String profileImageUrl, String backgroundImageUrl);
     void showRetry();
+    void showFavoriteSaveError();
 }

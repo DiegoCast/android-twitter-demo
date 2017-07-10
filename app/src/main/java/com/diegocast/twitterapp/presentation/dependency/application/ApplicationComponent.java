@@ -11,11 +11,5 @@ import dagger.Component;
 @Singleton
 @Component(modules = {ApplicationModule.class, DomainModule.class, DataModule.class})
 public interface ApplicationComponent {
-//    GetSystemInfoUseCase getCredentialsUseCase();
-//
-//    TokenAuthenticator tokenAuthenticator();
-//
     UserComponent.Builder userComponentBuilder();
-//
-//    ExceptionLogger exceptionLogger();
 }

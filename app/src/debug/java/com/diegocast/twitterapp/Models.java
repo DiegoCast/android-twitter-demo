@@ -6,7 +6,7 @@ import com.twitter.sdk.android.core.models.User;
 import java.util.ArrayList;
 
 /**
- * Class to generate models for testing statically
+ * Class to statically generate models for testing
  */
 
 public class Models {

@@ -20,6 +20,9 @@
     <string name="feed_title">My feed</string>
     <string name="feed_logout">Logout</string>
     <string name="feed_logout_description">Are you sure you want to log out?</string>
+    <string name="feed_favorite">Favorite</string>
+    <string name="feed_favorite_description">Do you want to save this tweet as favorite?</string>
+    <string name="feed_save_error">Error saving your tweet!</string>
 
     <!-- END FEED -->
 

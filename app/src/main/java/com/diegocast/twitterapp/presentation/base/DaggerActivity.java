@@ -9,7 +9,7 @@ import com.diegocast.twitterapp.presentation.dependency.activity.ActivityInjecto
 import com.diegocast.twitterapp.presentation.dependency.activity.ActivityModule;
 
 /**
- * Wrapper class to abstract injection thorough activity component.
+ * Wrapper class to abstract injection through activity component.
  */
 public class DaggerActivity extends AppCompatActivity implements ActivityInjector {
     private ActivityComponent component;

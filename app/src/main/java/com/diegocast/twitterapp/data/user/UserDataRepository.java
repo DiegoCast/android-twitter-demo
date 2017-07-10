@@ -1,6 +1,7 @@
 package com.diegocast.twitterapp.data.user;
 
 import com.diegocast.twitterapp.data.feed.TwitterApiRepository;
+import com.diegocast.twitterapp.data.persistance.PersistanceRepository;
 import com.diegocast.twitterapp.domain.UserRepository;
 import com.diegocast.twitterapp.domain.model.Response;
 import com.google.android.gms.tasks.Task;
@@ -23,12 +24,15 @@ import rx.functions.Func1;
 public class UserDataRepository implements UserRepository {
 
     private TwitterApiRepository twitterApiRepository;
+    private PersistanceRepository persistanceRepository;
     private FirebaseAuth firebaseAuth;
 
     @Inject
     public UserDataRepository(TwitterApiRepository twitterApiRepository,
+                              PersistanceRepository persistanceRepository,
                               FirebaseAuth firebaseAuth) {
         this.twitterApiRepository = twitterApiRepository;
+        this.persistanceRepository = persistanceRepository;
         this.firebaseAuth = firebaseAuth;
     }
 
@@ -73,6 +77,16 @@ public class UserDataRepository implements UserRepository {
     @Override
     public Observable<Response<List<Tweet>, Boolean>> feed() {
         return twitterApiRepository.getHomeFeed();
+    }
+
+    @Override
+    public Observable<Response<Void, Boolean>> favorite(Tweet tweet) {
+        return persistanceRepository.save(tweet);
+    }
+
+    @Override
+    public Observable<Response<List<Tweet>, Boolean>> favorites() {
+        return persistanceRepository.favorites();
     }
 
     private Observable<FirebaseUser> observeSignIn(final AuthCredential authCredential) {

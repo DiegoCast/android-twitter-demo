@@ -1,6 +1,7 @@
 package com.diegocast.twitterapp;
 
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.test.espresso.Root;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 import android.widget.ListView;
@@ -14,6 +15,10 @@ import org.hamcrest.TypeSafeMatcher;
  */
 
 public class Matchers {
+
+    public static Matcher<Root> isToast() {
+        return new ToastMatcher();
+    }
 
     public static Matcher<View> withListSize (final int size) {
         return new TypeSafeMatcher<View>() {

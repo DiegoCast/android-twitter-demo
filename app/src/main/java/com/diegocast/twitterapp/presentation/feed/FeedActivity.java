@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.diegocast.twitterapp.R;
 import com.diegocast.twitterapp.presentation.Utils;
@@ -151,9 +152,19 @@ public class FeedActivity extends DaggerActivity implements FeedView,
         final FixedTweetTimeline timeline = new FixedTweetTimeline.Builder()
                 .setTweets(tweets)
                 .build();
-        adapter = new TweetTimelineListAdapter.Builder(this)
-                .setTimeline(timeline)
-                .build();
+
+        adapter = new TweetAdapter(this, timeline, tweet -> {
+            new AlertDialog.Builder(FeedActivity.this)
+                    .setIcon(R.drawable.ic_star_white_24dp)
+                    .setTitle(getString(R.string.feed_favorite))
+                    .setMessage(getString(R.string.feed_favorite_description))
+                    .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+                        presenter.saveFavoriteTweet(tweet);
+                    })
+                    .setNegativeButton(getString(R.string.no), null)
+                    .show();
+        });
+
         listView.setAdapter(adapter);
 
         refreshLayout.setOnRefreshListener(() -> {
@@ -195,6 +206,11 @@ public class FeedActivity extends DaggerActivity implements FeedView,
     public void showRetry() {
         progressBar.show();
         //TODO show a retry button, call presenter, restart petitions
+    }
+
+    @Override
+    public void showFavoriteSaveError() {
+        Toast.makeText(this, getString(R.string.feed_save_error), Toast.LENGTH_LONG).show();
     }
 
     @Override

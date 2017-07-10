@@ -5,6 +5,7 @@ import com.diegocast.twitterapp.domain.model.Response;
 import com.diegocast.twitterapp.domain.usecase.GetFeedUseCase;
 import com.diegocast.twitterapp.domain.usecase.GetSelfUseCase;
 import com.diegocast.twitterapp.domain.usecase.LogoutUseCase;
+import com.diegocast.twitterapp.domain.usecase.SaveTweetUseCase;
 import com.diegocast.twitterapp.presentation.base.Navigator;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.models.User;
@@ -21,6 +22,7 @@ import rx.Observable;
 import rx.schedulers.Schedulers;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class FeedPresenterTest {
@@ -42,18 +44,23 @@ public class FeedPresenterTest {
     @Mock
     GetSelfUseCase getSelfUseCase;
 
+    @Mock
+    SaveTweetUseCase saveTweetUseCase;
+
     private FeedPresenter.GetFeedSubscriber getFeedSubscriber;
     private FeedPresenter.GetSelfSubscriber getSelfSubscriber;
+    private FeedPresenter.SaveTweetSubscriber saveTweetSubscriber;
     private User self;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         presenter = new FeedPresenter(view, navigator, logoutUseCase, getFeedUseCase,
-                getSelfUseCase, Schedulers.immediate(), Schedulers.immediate());
+                getSelfUseCase, saveTweetUseCase, Schedulers.immediate(), Schedulers.immediate());
 
         getFeedSubscriber = presenter.new GetFeedSubscriber();
         getSelfSubscriber = presenter.new GetSelfSubscriber();
+        saveTweetSubscriber = presenter.new SaveTweetSubscriber();
         self = Models.self("screenName", "profileImageUrl_normal", "profileBannerUrl");
     }
 
@@ -77,6 +84,17 @@ public class FeedPresenterTest {
         verify(logoutUseCase).logout();
         verify(navigator).navigateToMain();
         verify(view).close();
+    }
+
+    @Test
+    public void saveFavoriteTweetTest() {
+        Tweet tweet = Models.tweet(123L);
+        when(saveTweetUseCase.favorite(tweet))
+                .thenReturn(Observable.just(Response.create(null, true)));
+
+        presenter.saveFavoriteTweet(tweet);
+
+        verify(saveTweetUseCase).favorite(tweet);
     }
 
     @Test
@@ -106,5 +124,19 @@ public class FeedPresenterTest {
         getFeedSubscriber.onNext(Response.create(null, false));
 
         verify(view).showRetry();
+    }
+
+    @Test
+    public void saveTweetSubscriberSuccessTest() {
+        saveTweetSubscriber.onNext(Response.create(null, true));
+
+        verifyNoMoreInteractions(view);
+    }
+
+    @Test
+    public void saveTweetSubscriberUnSuccessTest() {
+        saveTweetSubscriber.onNext(Response.create(null, false));
+
+        verify(view).showFavoriteSaveError();
     }
 }

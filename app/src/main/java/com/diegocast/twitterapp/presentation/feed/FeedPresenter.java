@@ -4,6 +4,7 @@ import com.diegocast.twitterapp.domain.model.Response;
 import com.diegocast.twitterapp.domain.usecase.GetFeedUseCase;
 import com.diegocast.twitterapp.domain.usecase.GetSelfUseCase;
 import com.diegocast.twitterapp.domain.usecase.LogoutUseCase;
+import com.diegocast.twitterapp.domain.usecase.SaveTweetUseCase;
 import com.diegocast.twitterapp.presentation.BaseView;
 import com.diegocast.twitterapp.presentation.base.Navigator;
 import com.twitter.sdk.android.core.models.Tweet;
@@ -25,14 +26,17 @@ public class FeedPresenter {
     private LogoutUseCase logoutUseCase;
     private GetFeedUseCase getFeedUseCase;
     private GetSelfUseCase getSelfUseCase;
+    private SaveTweetUseCase saveTweetUseCase;
     private Scheduler computation;
     private Scheduler main;
     private Subscription getSelfSubscription;
     private Subscription getFeedSubscription;
+    private Subscription saveTweetSubscription;
 
     @Inject
     public FeedPresenter (BaseView view, Navigator navigator, LogoutUseCase logoutUseCase,
                           GetFeedUseCase getFeedUseCase, GetSelfUseCase getSelfUseCase,
+                          SaveTweetUseCase saveTweetUseCase,
                           @Named("computation") Scheduler computation,
                           @Named("main") Scheduler main) {
         this.view = (FeedView) view;
@@ -40,6 +44,7 @@ public class FeedPresenter {
         this.logoutUseCase = logoutUseCase;
         this.getFeedUseCase = getFeedUseCase;
         this.getSelfUseCase = getSelfUseCase;
+        this.saveTweetUseCase = saveTweetUseCase;
         this.computation = computation;
         this.main = main;
     }
@@ -64,6 +69,17 @@ public class FeedPresenter {
     public void destroy() {
         getSelfSubscription.unsubscribe();
         getFeedSubscription.unsubscribe();
+        if (saveTweetSubscription != null){
+            saveTweetSubscription.unsubscribe();
+        }
+    }
+
+    public void saveFavoriteTweet(Tweet tweet) {
+        //TODO 
+//        saveTweetSubscription = saveTweetUseCase.favorite(tweet)
+//                .subscribeOn(computation)
+//                .observeOn(main)
+//                .subscribe(new SaveTweetSubscriber());
     }
 
     /**
@@ -114,6 +130,30 @@ public class FeedPresenter {
         @Override
         public void onError(Throwable e) {
             throw new RuntimeException("GetFeedSubscriber error", e);
+        }
+
+        @Override
+        public void onCompleted() {}
+
+    }
+
+
+    /**
+     * Subscriber which notifies about saving a tweet
+     *
+     */
+    public class SaveTweetSubscriber extends Subscriber<Response<Void, Boolean>> {
+
+        @Override
+        public void onNext(Response<Void, Boolean> response) {
+            if (!response.state()) {
+                view.showFavoriteSaveError();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            throw new RuntimeException("IsUserAuthenticatedSubscriber error", e);
         }
 
         @Override

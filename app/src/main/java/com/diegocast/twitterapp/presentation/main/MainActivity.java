@@ -42,12 +42,12 @@ public class MainActivity extends DaggerActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Here we start the injection tree. Dagger will first generate necessary dependencies from
-        //ApplicationComponent and downstream. We separate components in the hierarchy
-        //and scope them for better resource management in the case of user, activity and view
-        //dependencies independently. We use the ViewModule as a means to abstract presenter from
-        //the view classes through injection (each presenter should cast its interface to his
-        //associated view after injection).
+        // Here we start the injection tree. Dagger will first generate necessary dependencies from
+        // ApplicationComponent and downstream. We separate components in the hierarchy
+        // and scope them for better resource management in the case of user, activity and view
+        // dependencies independently. We use the ViewModule as a means to abstract presenter from
+        // the view classes through injection (each presenter should cast its interface to his
+        // associated view after injection).
 
         component()
                 .plus(new ViewModule(this))

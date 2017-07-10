@@ -2,6 +2,7 @@ package com.diegocast.twitterapp.data.dependency;
 
 import com.diegocast.twitterapp.Constants;
 import com.diegocast.twitterapp.data.feed.TwitterRestApi;
+import com.diegocast.twitterapp.data.persistance.PersistanceRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -71,7 +72,7 @@ public class DataModule {
     @Provides
     @Singleton
     static TwitterSession twitterSessionProvider() {
-        //We have to assume at this stage that session is not null:
+        // We have to assume at this stage that session is not null:
         return TwitterCore.getInstance().getSessionManager().getActiveSession();
     }
 
@@ -81,5 +82,11 @@ public class DataModule {
         // We can also directly provide the api (as its an interface implementation directly
         // from other dependencies:
         return retrofit.create(TwitterRestApi.class);
+    }
+
+    @Provides
+    @Singleton
+    static PersistanceRepository persistanceRepositoryProvider() {
+        return new PersistanceRepository();
     }
 }

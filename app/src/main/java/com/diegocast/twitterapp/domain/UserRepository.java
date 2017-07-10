@@ -15,4 +15,6 @@ public interface UserRepository {
     Observable<Response<Void, Boolean>> isUserAuthenticated();
     Observable<Response<User, Boolean>> self();
     Observable<Response<List<Tweet>, Boolean>> feed();
+    Observable<Response<Void, Boolean>> favorite(Tweet tweet);
+    Observable<Response<List<Tweet>, Boolean>> favorites();
 }
