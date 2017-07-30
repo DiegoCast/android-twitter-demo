@@ -1,6 +1,6 @@
 package com.diegocast.twitterapp.domain.usecase;
 
-import com.diegocast.twitterapp.domain.UserRepository;
+import com.diegocast.twitterapp.domain.AuthRepository;
 import com.diegocast.twitterapp.domain.model.Response;
 import com.twitter.sdk.android.core.TwitterSession;
 
@@ -13,10 +13,10 @@ import rx.Observable;
  */
 public class LoginUseCase {
 
-    private UserRepository repository;
+    private AuthRepository repository;
 
     @Inject
-    public LoginUseCase(UserRepository repository) {
+    public LoginUseCase(AuthRepository repository) {
         this.repository = repository;
     }
 

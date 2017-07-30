@@ -75,7 +75,7 @@ public class FeedPresenter {
     }
 
     public void saveFavoriteTweet(Tweet tweet) {
-        //TODO 
+        //TODO
 //        saveTweetSubscription = saveTweetUseCase.favorite(tweet)
 //                .subscribeOn(computation)
 //                .observeOn(main)

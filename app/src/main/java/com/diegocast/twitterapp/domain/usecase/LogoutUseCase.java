@@ -1,15 +1,15 @@
 package com.diegocast.twitterapp.domain.usecase;
 
-import com.diegocast.twitterapp.domain.UserRepository;
+import com.diegocast.twitterapp.domain.AuthRepository;
 
 import javax.inject.Inject;
 
 public class LogoutUseCase {
 
-    private UserRepository repository;
+    private AuthRepository repository;
 
     @Inject
-    public LogoutUseCase(UserRepository repository) {
+    public LogoutUseCase(AuthRepository repository) {
         this.repository = repository;
     }
 

@@ -1,6 +1,6 @@
 package com.diegocast.twitterapp.domain.usecase;
 
-import com.diegocast.twitterapp.domain.UserRepository;
+import com.diegocast.twitterapp.domain.AuthRepository;
 import com.diegocast.twitterapp.domain.model.Response;
 
 import javax.inject.Inject;
@@ -12,10 +12,10 @@ import rx.Observable;
  */
 public class IsUserAuthenticatedUseCase {
 
-    private UserRepository repository;
+    private AuthRepository repository;;
 
     @Inject
-    public IsUserAuthenticatedUseCase(UserRepository repository) {
+    public IsUserAuthenticatedUseCase(AuthRepository repository) {
         this.repository = repository;
     }
 

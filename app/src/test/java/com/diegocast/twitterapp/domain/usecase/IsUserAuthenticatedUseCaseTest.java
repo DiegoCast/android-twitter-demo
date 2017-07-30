@@ -1,6 +1,6 @@
 package com.diegocast.twitterapp.domain.usecase;
 
-import com.diegocast.twitterapp.domain.UserRepository;
+import com.diegocast.twitterapp.domain.AuthRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import static org.mockito.Mockito.verify;
 
 public class IsUserAuthenticatedUseCaseTest {
     @Mock
-    UserRepository repository;
+    AuthRepository repository;
 
     private IsUserAuthenticatedUseCase useCase;
 

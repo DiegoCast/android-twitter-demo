@@ -1,6 +1,6 @@
 package com.diegocast.twitterapp.domain.usecase;
 
-import com.diegocast.twitterapp.domain.UserRepository;
+import com.diegocast.twitterapp.domain.AuthRepository;
 import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterSession;
 
@@ -14,7 +14,7 @@ import static org.mockito.Mockito.verify;
 public class LoginUseCaseTest {
 
     @Mock
-    UserRepository repository;
+    AuthRepository repository;
 
     private LoginUseCase useCase;
 
