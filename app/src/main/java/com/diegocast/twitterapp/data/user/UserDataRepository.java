@@ -4,8 +4,8 @@ import com.diegocast.twitterapp.data.feed.TwitterApiRepository;
 import com.diegocast.twitterapp.data.persistance.PersistanceRepository;
 import com.diegocast.twitterapp.domain.UserRepository;
 import com.diegocast.twitterapp.domain.model.Response;
+import com.diegocast.twitterapp.domain.model.User;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.models.User;
 
 import java.util.List;
 
@@ -33,6 +33,11 @@ public class UserDataRepository implements UserRepository {
     @Override
     public Observable<Response<List<Tweet>, Boolean>> feed() {
         return twitterApiRepository.getHomeFeed();
+    }
+
+    @Override
+    public Observable<Response<List<Tweet>, Boolean>> userFeed(long userId, String screenName) {
+        return twitterApiRepository.getUserFeed(userId, screenName);
     }
 
     @Override

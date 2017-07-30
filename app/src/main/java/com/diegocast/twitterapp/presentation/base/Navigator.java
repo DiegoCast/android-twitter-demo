@@ -3,6 +3,7 @@ package com.diegocast.twitterapp.presentation.base;
 import android.content.Context;
 import android.content.Intent;
 
+import com.diegocast.twitterapp.domain.model.User;
 import com.diegocast.twitterapp.presentation.feed.FeedActivity;
 import com.diegocast.twitterapp.presentation.main.MainActivity;
 
@@ -23,7 +24,12 @@ public class Navigator {
     }
 
     public void navigateToFeed() {
-        Intent intent = FeedActivity.newInstance(context);
+        Intent intent = FeedActivity.newMeInstance(context);
+        context.startActivity(intent);
+    }
+
+    public void navigateToUser(User user) {
+        Intent intent = FeedActivity.newInstance(context, user);
         context.startActivity(intent);
     }
 

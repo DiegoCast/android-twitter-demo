@@ -2,7 +2,7 @@ package com.diegocast.twitterapp.domain.usecase;
 
 import com.diegocast.twitterapp.domain.UserRepository;
 import com.diegocast.twitterapp.domain.model.Response;
-import com.twitter.sdk.android.core.models.User;
+import com.diegocast.twitterapp.domain.model.User;
 
 import javax.inject.Inject;
 

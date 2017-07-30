@@ -1,8 +1,8 @@
 package com.diegocast.twitterapp.data.feed;
 
 import com.diegocast.twitterapp.domain.model.Response;
+import com.diegocast.twitterapp.domain.model.User;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.models.User;
 
 import java.util.List;
 
@@ -29,11 +29,16 @@ public class TwitterApiRepository {
 
     public Observable<Response<User, Boolean>> getSelf() {
         return restApi.verifyCredentials(true, false, false)
-                .map(new Func1<retrofit2.Response<User>, Response<User, Boolean>>() {
+                .map(new Func1<retrofit2.Response<com.twitter.sdk.android.core.models.User>, Response<User, Boolean>>() {
             @Override
-            public Response<User, Boolean> call(retrofit2.Response<User> response) {
+            public Response<User, Boolean> call(retrofit2.Response<com.twitter.sdk.android.core.models.User> response) {
                 if (response.isSuccessful()) {
-                    return Response.create(response.body(), true);
+                    final com.twitter.sdk.android.core.models.User body = response.body();
+                    return Response.create(User.create(
+                            body.id,
+                            body.screenName,
+                            body.profileImageUrl.replace("_normal",""),
+                            body.profileBannerUrl), true);
                 } else {
                     // We don't care about data if the request failed, we just push the state
                     // forward for business logic to deal with:
@@ -46,14 +51,28 @@ public class TwitterApiRepository {
     public Observable<Response<List<Tweet>, Boolean>> getHomeFeed() {
         return restApi.homeTimeline(null, null, null, null, true, null, true)
                 .map(new Func1<retrofit2.Response<List<Tweet>>, Response<List<Tweet>, Boolean>>() {
-            @Override
-            public Response<List<Tweet>, Boolean> call(retrofit2.Response<List<Tweet>> response) {
-                if (response.isSuccessful()) {
-                    return Response.create(response.body(), true);
-                } else {
-                    return Response.create(null, false);
-                }
-            }
-        });
+                    @Override
+                    public Response<List<Tweet>, Boolean> call(retrofit2.Response<List<Tweet>> response) {
+                        if (response.isSuccessful()) {
+                            return Response.create(response.body(), true);
+                        } else {
+                            return Response.create(null, false);
+                        }
+                    }
+                });
+    }
+
+    public Observable<Response<List<Tweet>, Boolean>> getUserFeed(long userId, String screenName) {
+        return restApi.userTimeline(userId, screenName, null, null, null, false, null, true, true)
+                .map(new Func1<retrofit2.Response<List<Tweet>>, Response<List<Tweet>, Boolean>>() {
+                    @Override
+                    public Response<List<Tweet>, Boolean> call(retrofit2.Response<List<Tweet>> response) {
+                        if (response.isSuccessful()) {
+                            return Response.create(response.body(), true);
+                        } else {
+                            return Response.create(null, false);
+                        }
+                    }
+                });
     }
 }

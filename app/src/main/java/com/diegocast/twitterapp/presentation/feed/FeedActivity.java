@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.diegocast.twitterapp.R;
+import com.diegocast.twitterapp.domain.model.User;
 import com.diegocast.twitterapp.presentation.Utils;
 import com.diegocast.twitterapp.presentation.base.DaggerActivity;
 import com.diegocast.twitterapp.presentation.base.view.SquareImageView;
@@ -39,6 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FeedActivity extends DaggerActivity implements FeedView,
         Toolbar.OnMenuItemClickListener, AppBarLayout.OnOffsetChangedListener {
+    private static final String ARG_USER = "arg_user";
 
     @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
@@ -69,8 +71,14 @@ public class FeedActivity extends DaggerActivity implements FeedView,
 
     private TweetTimelineListAdapter adapter;
 
-    public static Intent newInstance(Context context) {
+    public static Intent newMeInstance(Context context) {
         return new Intent(context, FeedActivity.class);
+    }
+
+    public static Intent newInstance(Context context, com.diegocast.twitterapp.domain.model.User user) {
+        final Intent intent = new Intent(context, FeedActivity.class);
+        intent.putExtra(ARG_USER, user);
+        return intent;
     }
 
     @Override
@@ -99,7 +107,11 @@ public class FeedActivity extends DaggerActivity implements FeedView,
             listView.setNestedScrollingEnabled(true);
         }
 
-        presenter.create();
+        if (getIntent().hasExtra(ARG_USER)) {
+            presenter.create(getIntent().getParcelableExtra(ARG_USER));
+        } else {
+            presenter.create(null);
+        }
     }
 
     @Override
@@ -160,16 +172,24 @@ public class FeedActivity extends DaggerActivity implements FeedView,
                 .setTweets(tweets)
                 .build();
 
-        adapter = new TweetAdapter(this, timeline, tweet -> {
-            new AlertDialog.Builder(FeedActivity.this)
-                    .setIcon(R.drawable.ic_star_white_24dp)
-                    .setTitle(getString(R.string.feed_favorite))
-                    .setMessage(getString(R.string.feed_favorite_description))
-                    .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
-                        presenter.saveFavoriteTweet(tweet);
-                    })
-                    .setNegativeButton(getString(R.string.no), null)
-                    .show();
+        adapter = new TweetAdapter(this, timeline, new TweetAdapter.Listener() {
+            @Override
+            public void onClick(User user) {
+                presenter.user(user);
+            }
+
+            @Override
+            public void onLongClick(Tweet tweet) {
+                new AlertDialog.Builder(FeedActivity.this)
+                        .setIcon(R.drawable.ic_star_white_24dp)
+                        .setTitle(getString(R.string.feed_favorite))
+                        .setMessage(getString(R.string.feed_favorite_description))
+                        .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+                            presenter.saveFavoriteTweet(tweet);
+                        })
+                        .setNegativeButton(getString(R.string.no), null)
+                        .show();
+            }
         });
 
         listView.setAdapter(adapter);

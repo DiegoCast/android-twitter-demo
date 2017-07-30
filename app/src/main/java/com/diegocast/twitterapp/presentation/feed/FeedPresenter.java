@@ -1,6 +1,7 @@
 package com.diegocast.twitterapp.presentation.feed;
 
 import com.diegocast.twitterapp.domain.model.Response;
+import com.diegocast.twitterapp.domain.model.User;
 import com.diegocast.twitterapp.domain.usecase.GetFeedUseCase;
 import com.diegocast.twitterapp.domain.usecase.GetSelfUseCase;
 import com.diegocast.twitterapp.domain.usecase.LogoutUseCase;
@@ -8,7 +9,6 @@ import com.diegocast.twitterapp.domain.usecase.SaveTweetUseCase;
 import com.diegocast.twitterapp.presentation.BaseView;
 import com.diegocast.twitterapp.presentation.base.Navigator;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.models.User;
 
 import java.util.List;
 
@@ -32,6 +32,7 @@ public class FeedPresenter {
     private Subscription getSelfSubscription;
     private Subscription getFeedSubscription;
     private Subscription saveTweetSubscription;
+    private long userId;
 
     @Inject
     public FeedPresenter (BaseView view, Navigator navigator, LogoutUseCase logoutUseCase,
@@ -49,15 +50,25 @@ public class FeedPresenter {
         this.main = main;
     }
 
-    public void create() {
-        getSelfSubscription = getSelfUseCase.self()
-                .subscribeOn(computation)
-                .observeOn(main)
-                .subscribe(new GetSelfSubscriber());
-        getFeedSubscription = getFeedUseCase.feed()
-                .subscribeOn(computation)
-                .observeOn(main)
-                .subscribe(new GetFeedSubscriber());
+    public void create(com.diegocast.twitterapp.domain.model.User user) {
+        if (user != null) {
+            this.userId = user.userId();
+            view.showUserInfo(user.screenName(), user.profileImageUrl(),
+                    user.profileBannerUrl());
+            getFeedSubscription = getFeedUseCase.userFeed(this.userId, user.screenName())
+                    .subscribeOn(computation)
+                    .observeOn(main)
+                    .subscribe(new GetFeedSubscriber());
+        } else {
+            getSelfSubscription = getSelfUseCase.self()
+                    .subscribeOn(computation)
+                    .observeOn(main)
+                    .subscribe(new GetSelfSubscriber());
+            getFeedSubscription = getFeedUseCase.feed()
+                    .subscribeOn(computation)
+                    .observeOn(main)
+                    .subscribe(new GetFeedSubscriber());
+        }
     }
 
     public void logout() {
@@ -67,9 +78,11 @@ public class FeedPresenter {
     }
 
     public void destroy() {
-        getSelfSubscription.unsubscribe();
         getFeedSubscription.unsubscribe();
-        if (saveTweetSubscription != null){
+        if (getSelfSubscription != null) {
+            getSelfSubscription.unsubscribe();
+        }
+        if (saveTweetSubscription != null) {
             saveTweetSubscription.unsubscribe();
         }
     }
@@ -82,6 +95,12 @@ public class FeedPresenter {
 //                .subscribe(new SaveTweetSubscriber());
     }
 
+    public void user(User user) {
+        if (user.userId() != this.userId) {
+            navigator.navigateToUser(user);
+        }
+    }
+
     /**
      * Subscriber that returns the user's data
      *
@@ -92,11 +111,9 @@ public class FeedPresenter {
         public void onNext(Response<User, Boolean> response) {
             if (response.state()) {
                 final User self = response.data();
-                // Apparently this replace line needs to happen to avoid getting an overly
-                // low quality image:
-                final String profileImageUrlNormal = self.profileImageUrl.replace("_normal","");
-                view.showUserInfo(self.screenName, profileImageUrlNormal,
-                        self.profileBannerUrl);
+                userId = self.userId();
+                view.showUserInfo(self.screenName(), self.profileImageUrl(),
+                        self.profileBannerUrl());
             } else {
                 view.showRetry();
             }

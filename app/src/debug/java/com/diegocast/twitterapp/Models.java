@@ -21,6 +21,14 @@ public class Models {
 
     }
 
+    public static com.diegocast.twitterapp.domain.model.User user(long userId,
+                                                                  String screenName,
+                                                                  String profileImageUrl,
+                                                                  String profileBannerUrl) {
+        return com.diegocast.twitterapp.domain.model.User.create(userId,
+                screenName, profileImageUrl, profileBannerUrl);
+    }
+
     public static Tweet tweet(long id) {
         return new Tweet(null, "createdAt", null, null, null, 0, false, "filterLevel", id, "idStr",
                 "inReplyToScreenName", 0L, "inReplyToStatusIdStr", 0L, "inReplyToUserIdStr", "lang",

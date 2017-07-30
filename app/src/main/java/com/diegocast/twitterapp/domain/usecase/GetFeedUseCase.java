@@ -22,4 +22,8 @@ public class GetFeedUseCase {
     public Observable<Response<List<Tweet>, Boolean>> feed() {
         return repository.feed();
     }
+
+    public Observable<Response<List<Tweet>, Boolean>> userFeed(long userId, String screenName) {
+        return repository.userFeed(userId, screenName);
+    }
 }

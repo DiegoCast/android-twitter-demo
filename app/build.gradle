@@ -154,6 +154,9 @@ dependencies {
     annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
     annotationProcessor 'com.gabrielittner.auto.value:auto-value-with:1.0.0'
 
+    //Auto value parcelable
+    annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
+
     //Include all the Twitter APIs
     compile 'com.twitter.sdk.android:twitter:3.0.0'
 

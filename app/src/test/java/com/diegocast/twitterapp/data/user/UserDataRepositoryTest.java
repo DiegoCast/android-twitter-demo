@@ -4,12 +4,8 @@ import com.diegocast.twitterapp.Models;
 import com.diegocast.twitterapp.data.feed.TwitterApiRepository;
 import com.diegocast.twitterapp.data.persistance.PersistanceRepository;
 import com.diegocast.twitterapp.domain.model.Response;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterSession;
+import com.diegocast.twitterapp.domain.model.User;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.models.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +13,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import rx.Observable;
-import rx.observers.TestSubscriber;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -45,7 +38,7 @@ public class UserDataRepositoryTest {
 
     @Test
     public void selfTest() {
-        User self = Models.self("screenName", "profileImageUrl", "profileBannerUrl");
+        User self = Models.user(123L,"screenName", "profileImageUrl", "profileBannerUrl");
         when(apiRepository.getSelf()).thenReturn(Observable.just(Response.create(self, true)));
         repository.self();
 

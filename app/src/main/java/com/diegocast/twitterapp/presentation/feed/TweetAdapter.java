@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.core.models.User;
 import com.twitter.sdk.android.tweetui.Timeline;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 
@@ -18,6 +19,7 @@ class TweetAdapter extends TweetTimelineListAdapter {
     private Listener listener;
 
     public interface Listener {
+        void onClick(com.diegocast.twitterapp.domain.model.User user);
         void onLongClick(Tweet tweet);
     }
 
@@ -35,6 +37,17 @@ class TweetAdapter extends TweetTimelineListAdapter {
         }
 
         view.setEnabled(true);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final User user = getItem(position).user;
+                listener.onClick(com.diegocast.twitterapp.domain.model.User.create(
+                        user.id,
+                        user.screenName,
+                        user.profileImageUrl == null ? null : user.profileImageUrl.replace("_normal",""),
+                        user.profileBannerUrl));
+            }
+        });
         view.setOnLongClickListener(view1 -> {
             listener.onLongClick(getItem(position));
             return true;

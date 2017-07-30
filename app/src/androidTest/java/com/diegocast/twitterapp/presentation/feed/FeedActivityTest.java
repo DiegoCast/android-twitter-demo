@@ -42,7 +42,7 @@ public class FeedActivityTest {
             new ActivityTestRule<FeedActivity>(FeedActivity.class) {
                 @Override
                 protected Intent getActivityIntent() {
-                    return FeedActivity.newInstance(InstrumentationRegistry.getContext());
+                    return FeedActivity.newMeInstance(InstrumentationRegistry.getContext());
                 }
             };
 

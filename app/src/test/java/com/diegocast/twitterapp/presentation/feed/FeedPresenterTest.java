@@ -2,13 +2,13 @@ package com.diegocast.twitterapp.presentation.feed;
 
 import com.diegocast.twitterapp.Models;
 import com.diegocast.twitterapp.domain.model.Response;
+import com.diegocast.twitterapp.domain.model.User;
 import com.diegocast.twitterapp.domain.usecase.GetFeedUseCase;
 import com.diegocast.twitterapp.domain.usecase.GetSelfUseCase;
 import com.diegocast.twitterapp.domain.usecase.LogoutUseCase;
 import com.diegocast.twitterapp.domain.usecase.SaveTweetUseCase;
 import com.diegocast.twitterapp.presentation.base.Navigator;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.models.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -61,7 +61,7 @@ public class FeedPresenterTest {
         getFeedSubscriber = presenter.new GetFeedSubscriber();
         getSelfSubscriber = presenter.new GetSelfSubscriber();
         saveTweetSubscriber = presenter.new SaveTweetSubscriber();
-        self = Models.self("screenName", "profileImageUrl_normal", "profileBannerUrl");
+        self = Models.user(123L, "screenName", "profileImageUrl", "profileBannerUrl");
     }
 
     @Test
@@ -71,7 +71,7 @@ public class FeedPresenterTest {
         when(getFeedUseCase.feed())
                 .thenReturn(Observable.just(Response.create(null, true)));
 
-        presenter.create();
+        presenter.create(null);
 
         verify(getSelfUseCase).self();
         verify(getFeedUseCase).feed();
