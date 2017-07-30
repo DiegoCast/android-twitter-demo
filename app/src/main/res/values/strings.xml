@@ -4,6 +4,7 @@
     <string name="app_name">Twitter App Demo</string>
     <string name="error_title">Error</string>
     <string name="authentication_error">Authentication error</string>
+    <string name="not_implemented">Feature not yet implemented!</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
@@ -25,6 +26,12 @@
     <string name="feed_save_error">Error saving your tweet!</string>
 
     <!-- END FEED -->
+
+    <!-- FAVORITES -->
+
+    <string name="favorites">Favorites</string>
+
+    <!-- END FAVORITES -->
 
     <!-- API KEY -->
 

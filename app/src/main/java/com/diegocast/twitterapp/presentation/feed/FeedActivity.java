@@ -137,6 +137,13 @@ public class FeedActivity extends DaggerActivity implements FeedView,
                 return true;
             case R.id.feed_favourites:
                 //TODO call presenter and navigate to favourites screen
+                new AlertDialog.Builder(this)
+                        .setIcon(R.drawable.ic_warning_white_24dp)
+                        .setTitle(getString(R.string.favorites))
+                        .setMessage(getString(R.string.not_implemented))
+                        .setPositiveButton("Ok", null)
+                        .show();
+                return true;
         }
         return false;
     }
